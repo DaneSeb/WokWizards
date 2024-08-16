@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const express = require('express');
+const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 const passport = require('passport');
 require('./auth');
@@ -10,6 +11,21 @@ function isLoggedIn(req,res,next) {
 }
 
 const app = express();
+const port = process.env.PORT || 5000;
+
+//Allows us not to use full path files like images
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
+app.use(expressLayouts);
+
+//Stores layout in layouts/main.ejs
+app.set('layout', './layouts/main');
+app.set('view engine', 'ejs');
+
+//Accessing the routes and using them here
+const routes = require('./server/routes/recipeRoutes.js');
+app.use('/', routes);
+
 app.use(session({ 
     secret: process.env.SESSION_SECRET, //Replace with your own SESSION_SECRET
     resave: true,
@@ -56,4 +72,4 @@ app.get('/logout',(req,res,next) => {
     res.send('Goodbye!');
 });
 
-app.listen(5000, () => console.log('listening on: 5000'));
+app.listen(port, () => console.log(`listening on port: ${port}`));

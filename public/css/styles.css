@@ -1,0 +1,16 @@
+:root {
+    --bs-font-sans-serif: 'Montserrat', sans-serif;
+}
+
+.container-xxl {
+    max-width: 1530px;
+}
+
+body {
+    background-image: url("/img/bg2.avif");
+    background-color: rgb(240,240,240);
+}
+
+a {
+    color: var(--bs-dark); 
+}
