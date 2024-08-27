@@ -66,7 +66,7 @@ exports.exploreCategoriesById = async(req,res) => {
  */
 exports.exploreRecipe= async(req,res) => {
     try {
-        let recipeId = req.params.id; //gets id from recipe
+        let recipeId = req.params.id; //gets id from the id of the recipe which is in the url
         const recipe = await Recipe.findById(recipeId);
 
         res.render('recipe', { title: 'WokWizards - Recipe', recipe } );
@@ -79,10 +79,49 @@ exports.exploreRecipe= async(req,res) => {
  * POST /search
  * Search
  */
-
 exports.searchRecipe= async(req,res) => {
+    try{
+        let searchTerm = req.body.searchTerm; //uses the search term provided by user
+        //This will search specific parts of the data in the mongoDB database
+        let recipe = await Recipe.find( {$text: { $search: searchTerm, $diacriticSensitive: true } } );
+        res.render('search', { title: 'WokWizards - Search' , recipe } );
+    } catch(error) {
+        res.status(500).send({message: error.message || "Error Occured"});
 
-    res.render('search', { title: 'WokWizards - Search' } );
+    }    
+
+}
+
+/**
+ * Get /explore-latest
+ * Explore Latest
+ */
+exports.exploreLatest= async(req,res) => {
+    try {
+        const limitNumber = 20;
+        const recipe = await Recipe.find({}).sort({_id: -1}).limit(limitNumber);
+
+        res.render('explore-latest', { title: 'WokWizards - Explore Latest', recipe } );
+    } catch(error) {
+        res.status(500).send({message: error.message || "Error Occured"});
+    }
+}
+
+/**
+ * Get /explore-latest
+ * Explore Random
+ */
+exports.exploreRandom= async(req,res) => {
+    try {
+
+        let count = await Recipe.find().countDocuments();
+        let random = Math.floor(Math.random() * count);
+        let recipe = await Recipe.findOne().skip(random).exec();
+
+        res.render('explore-random', { title: 'WokWizards - Explore Random', recipe } );
+    } catch(error) {
+        res.status(500).send({message: error.message || "Error Occured"});
+    }
 }
 
 
