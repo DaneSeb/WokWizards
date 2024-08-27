@@ -108,7 +108,7 @@ exports.exploreLatest= async(req,res) => {
 }
 
 /**
- * Get /explore-latest
+ * Get /explore-random
  * Explore Random
  */
 exports.exploreRandom= async(req,res) => {
@@ -124,6 +124,86 @@ exports.exploreRandom= async(req,res) => {
     }
 }
 
+/**
+ * Get /submit-recipe
+ * Submit Recipe
+ */
+exports.submitRecipe= async(req,res) => {
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoSubmitObj = req.flash('infoSubmit');
+    res.render('submit-recipe', { title: 'WokWizards - Submit Recipe', infoErrorsObj, infoSubmitObj  } );
+}
+
+/**
+ * POST /submit-recipe
+ * Submit Recipe
+ */
+exports.submitRecipeOnPost = async(req,res) => {
+    try {
+        let imageUploadFile;
+        let uploadPath;
+        let newImageName;
+
+        if(!req.files || Object.keys(req.files).length === 0) {
+            console.log('No Files were uploaded.'); 
+        }  else {
+
+            imageUploadFile = req.files.image;
+            newImageName = Date.now() + imageUploadFile.name; //creates unique image name
+
+            uploadPath = require('path').resolve('./') + '/public/uploads/' + newImageName;
+
+            imageUploadFile.mv(uploadPath, function(err){
+                if(err) return res.status(500).send(err);
+            });
+        }
+        const newRecipe = new Recipe({
+            email: req.body.email,
+            name: req.body.name,
+            description: req.body.description,
+            ingredients: req.body.ingredients,
+            category: req.body.category,
+            image: newImageName
+        });
+
+        await newRecipe.save();
+
+        req.flash('infoSubmit', 'Recipe has been added!');
+        res.redirect('/submit-recipe');
+    } catch(error) {
+        req.flash('infoErrors', error );
+        res.redirect('/submit-recipe');
+
+
+    }
+
+}
+//Delete recipe
+async function deleteRecipe() {
+
+    try {
+        const res = await Recipe.deleteOne({ name: 'Recipe from form' });
+        res.n; // Number of documents matched
+        res.nModified; // Number of douments modified
+    } catch(error) {
+        console.log(error);
+    }
+}
+// deleteRecipe();
+
+//Update recipe
+async function updateRecipe() {
+
+    try {
+        const res = await Recipe.updateOne({ name: 'Second recipe with image ' }, { name: 'Second recipe updated' });
+        res.n; // Number of documents matched
+        res.nModified; // Number of douments modified
+    } catch(error) {
+        console.log(error);
+    }
+}
+
+// updateRecipe();
 
 //Initial code for initialising the categories & recipes in mongoDB
 // async function insertDymmyCategoryData() {
