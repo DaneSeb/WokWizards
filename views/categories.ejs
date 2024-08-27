@@ -5,7 +5,11 @@
       <li class="breadcrumb-item"><a href="/">Home</a></li>
       <li class="breadcrumb-item"><a href="/categories">Categories</a></li>
       <li class="breadcrumb-item active" aria-current="page">
+        <% if(typeof categoryById !== 'undefined' &&  categoryById.length > 0) { %>
             <%= categoryById.length > 0 ? categoryById[0].category : 'Categories' %>
+        <% } else { %>
+            All
+        <% } %>
       </li>
     </ol>
 </nav>
