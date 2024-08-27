@@ -163,6 +163,17 @@ exports.submitRecipeOnPost = async(req,res) => {
             description: req.body.description,
             ingredients: req.body.ingredients,
             category: req.body.category,
+            diets: req.body.diets,
+            duration:req.body.duration,
+            persons: req.body.persons,
+            calories:req.body.calories,
+            fats:req.body.fats,
+            carbohydrates:req.body.carbohydrates,
+            protein:req.body.protein,
+            sugar:req.body.sugar,
+            salt:req.body.salt,
+            saturates:req.body.saturates,
+            fibre:req.body.fibre,
             image: newImageName
         });
 
