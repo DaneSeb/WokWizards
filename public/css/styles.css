@@ -46,3 +46,7 @@ a {
     width:100%;
     object-fit: cover;
 }
+
+.card-text {
+    opacity: 1;
+}

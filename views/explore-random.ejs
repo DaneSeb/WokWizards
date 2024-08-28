@@ -9,17 +9,54 @@
 
     <div class="row">
         <div class="col-12 col-md-4">
-            <img src="/uploads/<%- recipe.image %>" class="img-fluid sticky-top" 
-            alt="<%- recipe.name %>" style="top: 20px;" loading="lazy">
+            <div class="card text-white sticky-top" style="top: 20px;">
+                <!-- Recipe Image -->
+                <img class="card-img" src="/uploads/<%- recipe.image %>" alt="<%- recipe.name %>" loading="lazy">
+              
+                <!-- Nutritional Information Box -->
+                <div class="card-img-overlay d-flex align-items-center justify-content-center">
+                  <div class="bg-dark text-light p-3 border rounded shadow-sm" style="max-width: 300px; text-align: center; opacity: 0.6;">
+                    <h5 class="card-title mb-3">Nutritional Information</h5>
+                    <p class="card-text"><strong>Calories:</strong> <%= recipe.calories %> kcal</p>
+                    <p class="card-text"><strong>Fats:</strong> <%= recipe.fats %> g</p>
+                    <p class="card-text"><strong>Carbohydrates:</strong> <%= recipe.carbohydrates %> g</p>
+                    <p class="card-text"><strong>Protein:</strong> <%= recipe.protein %> g</p>
+                    <p class="card-text"><strong>Sugar:</strong> <%= recipe.sugar %> g</p>
+                    <p class="card-text"><strong>Salt:</strong> <%= recipe.salt %> g</p>
+                    <p class="card-text"><strong>Saturates:</strong> <%= recipe.saturates %> g</p>
+                    <p class="card-text"><strong>Fibre:</strong> <%= recipe.fibre %> g</p>
+                  </div>
+                </div>
+              </div>
+        
         </div>
 
         <div class="col-12 col-md-8">
             <div class="row">
                 <div class="col-12"><h1><%- recipe.name %></h1></div>
-                <div class="col-12 mb-4"><i class="bi bi-tag"></i> <%- recipe.category %></div>
+
+                <div class="col-12 mb-4"><i class="bi bi-tags"></i> 
+                    <div class="badge bg-warning"><%- recipe.category %></div>
+                    <% if (recipe.diets && recipe.diets.length > 0) { %>
+                        <% recipe.diets.forEach(function(diet) { %>
+                            <span class="badge bg-success"><%- diet %></span>
+                        <% }) %>
+                    <% } %>
+                </div>
+
+                <div class="col-12 mb-2">
+                    <i class="bi bi-clock"></i> 
+                    <span class="badge bg-info">Duration: <%- recipe.duration %> minutes</span>
+                    <i class="bi bi-people"></i> 
+                    <span class="badge bg-primary">Serves: <%- recipe.persons %> people</span>
+                </div>
+
+
                 <div class="col-12" style="white-space: pre-line;">
                     <h4>Cooking Instructions</h4>
-                    <%- recipe.description %>
+                    <% recipe.description.split('\n').forEach(function(step, index) { %>
+                        <p><strong><%= index + 1 %>. </strong><%= step %></p>
+                    <% }) %>
                 </div>
             </div>
 
