@@ -1,6 +1,6 @@
 
 <div class="px-4 py-5 my-5 text-center">
-    <h1 class="display-5 fw-bold">Show us your magic.</h1>
+    <h1 class="display-5 fw-bold">Show us your magic <%= user.name.givenName %> !</h1>
     <div class="col-lg-6 mx-auto">
         <p>Share your recipes with the community!</p>
     </div>
@@ -27,8 +27,8 @@
 
                 <div class="col-12">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" name="email" id="email" class="form-control" required>
-                </div>
+                    <input type="text" name="email" id="email" class="form-control" value="<%= user.email %>" readonly required>
+                </div>                
 
                 <div class="col-12">
                     <label for="name" class="form-label">Recipe Name</label>
@@ -42,7 +42,7 @@
 
                 <div class="col-12">
                     <label for="ingredients" class="form-label">Ingredients</label>
-                    <small>Example: Eggs </small>
+                    <small>Example: 10g Flour </small>
                     <div class="ingredientList">
                         <div class="ingredientDiv mb-1">
                             <input type="text" name="ingredients" class="form-control" required>

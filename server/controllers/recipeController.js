@@ -19,7 +19,7 @@ exports.homepage = async(req,res) => {
 
         const food = { latest, thai, mexican, chinese };
 
-        res.render('index', { title: 'WokWizards - Home', categories, food });
+        res.render('index', { title: 'WokWizards - Home', categories, food, user: req.user });
     } catch(error) {
         res.status(500).send({message: error.message || "Error Occured"});
     }
@@ -131,7 +131,7 @@ exports.exploreRandom= async(req,res) => {
 exports.submitRecipe= async(req,res) => {
     const infoErrorsObj = req.flash('infoErrors');
     const infoSubmitObj = req.flash('infoSubmit');
-    res.render('submit-recipe', { title: 'WokWizards - Submit Recipe', infoErrorsObj, infoSubmitObj  } );
+    res.render('submit-recipe', { title: 'WokWizards - Submit Recipe', user: req.user, infoErrorsObj, infoSubmitObj  } );
 }
 
 /**
@@ -158,7 +158,7 @@ exports.submitRecipeOnPost = async(req,res) => {
             });
         }
         const newRecipe = new Recipe({
-            email: req.body.email,
+            email: req.user.email, // Uses the authenticated user's email
             name: req.body.name,
             description: req.body.description,
             ingredients: req.body.ingredients,
