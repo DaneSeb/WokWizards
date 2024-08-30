@@ -36,7 +36,7 @@ exports.exploreCategories= async(req,res) => {
         const limitNumber = 20;
         const categories = await Category.find({}).limit(limitNumber);
 
-        res.render('categories', { title: 'WokWizards - Categories', categories });
+        res.render('categories', { title: 'WokWizards - Categories', categories ,user: req.user });
     } catch(error) {
         res.status(500).send({message: error.message || "Error Occured"});
     }
@@ -54,7 +54,7 @@ exports.exploreCategoriesById = async(req,res) => {
         const limitNumber = 20;
         const categoryById = await Recipe.find({ 'category': categoryId }).limit(limitNumber);
 
-        res.render('categories', { title: 'WokWizards - Categories', categoryById });
+        res.render('categories', { title: 'WokWizards - Categories', categoryById, user: req.user });
     } catch(error) {
         res.status(500).send({message: error.message || "Error Occured"});
     }
@@ -69,7 +69,7 @@ exports.exploreRecipe= async(req,res) => {
         let recipeId = req.params.id; //gets id from the id of the recipe which is in the url
         const recipe = await Recipe.findById(recipeId);
 
-        res.render('recipe', { title: 'WokWizards - Recipe', recipe } );
+        res.render('recipe', { title: 'WokWizards - Recipe', recipe, user: req.user } );
     } catch(error) {
         res.status(500).send({message: error.message || "Error Occured"});
     }
@@ -84,7 +84,7 @@ exports.searchRecipe= async(req,res) => {
         let searchTerm = req.body.searchTerm; //uses the search term provided by user
         //This will search specific parts of the data in the mongoDB database
         let recipe = await Recipe.find( {$text: { $search: searchTerm, $diacriticSensitive: true } } );
-        res.render('search', { title: 'WokWizards - Search' , recipe } );
+        res.render('search', { title: 'WokWizards - Search' , recipe, user: req.user } );
     } catch(error) {
         res.status(500).send({message: error.message || "Error Occured"});
 
@@ -101,7 +101,7 @@ exports.exploreLatest= async(req,res) => {
         const limitNumber = 20;
         const recipe = await Recipe.find({}).sort({_id: -1}).limit(limitNumber);
 
-        res.render('explore-latest', { title: 'WokWizards - Explore Latest', recipe } );
+        res.render('explore-latest', { title: 'WokWizards - Explore Latest', recipe, user: req.user } );
     } catch(error) {
         res.status(500).send({message: error.message || "Error Occured"});
     }
@@ -118,7 +118,7 @@ exports.exploreRandom= async(req,res) => {
         let random = Math.floor(Math.random() * count);
         let recipe = await Recipe.findOne().skip(random).exec();
 
-        res.render('explore-random', { title: 'WokWizards - Explore Random', recipe } );
+        res.render('explore-random', { title: 'WokWizards - Explore Random', recipe, user: req.user } );
     } catch(error) {
         res.status(500).send({message: error.message || "Error Occured"});
     }
