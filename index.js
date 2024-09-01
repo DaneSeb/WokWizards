@@ -56,8 +56,11 @@ app.use('/', routes);
 // });
 
 app.get('/auth/google',
-    passport.authenticate('google', {scope: ['email', 'profile']})
-)
+    passport.authenticate('google', {
+        scope: ['email', 'profile'],
+        prompt: 'select_account' //Forces user to select an account every time
+    })
+);
 
 app.get('/google/callback',
     passport.authenticate('google',{
