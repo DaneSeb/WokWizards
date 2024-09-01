@@ -158,6 +158,7 @@ exports.submitRecipeOnPost = async(req,res) => {
             });
         }
         const newRecipe = new Recipe({
+            author: req.user.displayName, // Uses the authenticated user's display name
             email: req.user.email, // Uses the authenticated user's email
             name: req.body.name,
             description: req.body.description,

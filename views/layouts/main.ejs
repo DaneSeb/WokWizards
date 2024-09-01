@@ -21,7 +21,7 @@
                 <% } else { %>
                     <img src="/img/logo.png" width="69" height="69" alt="Home">
                 <% } %>
-            </a>
+            </a>            
 
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb md-0">
                 <li> <a href="/" class="nav-link px-2 link-secondary">Home</a></li>
@@ -35,6 +35,12 @@
                     <input type="search" name="searchTerm" class="form-control" placeholder="Search..." aria-label="Search">
                 </form>
             </div>
+
+            <% if(user != undefined) { %>
+                <a href="/logout" class="btn btn-outline-primary">Logout</a>
+            <% } else { %>
+                <a href="/auth/google" class="btn btn-outline-primary">Login</a>
+            <% } %>
         </header>
 
         <main>

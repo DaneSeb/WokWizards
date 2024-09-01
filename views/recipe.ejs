@@ -35,6 +35,7 @@
 
             <div class="row">
                 <div class="col-12"><h1><%- recipe.name %></h1></div>
+                <div class="col-12 mb-4"><p>Author: <%- recipe.author %></p></div>
                 
                 <div class="col-12 mb-4"><i class="bi bi-tags"></i> 
                     <div class="badge bg-warning"><%- recipe.category %></div>
@@ -52,22 +53,22 @@
                     <span class="badge bg-primary">Serves: <%- recipe.persons %> people</span>
                 </div>
 
+                <div class="row pt-4">
+                    <div class="col-12">
+                        <h4>Ingredients</h4>
+                        <ul class="list-group list-group-flush">
+                            <% recipe.ingredients.forEach(function(ingredients, index) { %>
+                                <li class="list-group-item"><%= ingredients%></li>
+                            <% }) %>
+                        </ul>
+                    </div>
+                </div>
+
                 <div class="col-12" style="white-space: pre-line;">
                     <h4>Cooking Instructions</h4>
                     <% recipe.description.split('\n').forEach(function(step, index) { %>
                         <p><strong><%= index + 1 %>. </strong><%= step %></p>
                     <% }) %>
-                </div>
-            </div>
-
-            <div class="row pt-4">
-                <div class="col-12">
-                    <h4>Ingredients</h4>
-                    <ul class="list-group list-group-flush">
-                        <% recipe.ingredients.forEach(function(ingredients, index) { %>
-                            <li class="list-group-item"><%= ingredients%></li>
-                        <% }) %>
-                    </ul>
                 </div>
             </div>
         </div>

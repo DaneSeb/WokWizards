@@ -51,9 +51,9 @@ app.set('view engine', 'ejs');
 const routes = require('./server/routes/recipeRoutes.js');
 app.use('/', routes);
 
-app.get('/', (req,res) => {
-    res.send('<a href="/auth/google"> Authenticate with Google </a>');
-});
+// app.get('/', (req,res) => {
+//     res.send('<a href="/auth/google"> Authenticate with Google </a>');
+// });
 
 app.get('/auth/google',
     passport.authenticate('google', {scope: ['email', 'profile']})
@@ -61,7 +61,7 @@ app.get('/auth/google',
 
 app.get('/google/callback',
     passport.authenticate('google',{
-        successRedirect: '/submit-recipe', 
+        successRedirect: '/', 
         failureRedirect: '/auth/failure',
     })
 );
@@ -81,7 +81,7 @@ app.get('/logout',(req,res,next) => {
             }
         });
     });
-    res.send('Goodbye!');
+    res.redirect('/');
 });
 
 app.listen(port, () => console.log(`listening on port: ${port}`));

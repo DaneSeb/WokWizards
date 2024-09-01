@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 
 // parsing options for schema
 const recipeSchema = new mongoose.Schema({
+    author : {
+        type: String,
+        required:'This field id required!'
+    },
     name : {
         type: String,
         required: 'This field is required!'
