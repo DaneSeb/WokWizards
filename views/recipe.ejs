@@ -55,14 +55,19 @@
 
                 <div class="row pt-4">
                     <div class="col-12">
-                        <h4>Ingredients</h4>
+                        <h4>Ingredients </h4>
+                        <p>(click to find online!)</p>
                         <ul class="list-group list-group-flush">
-                            <% recipe.ingredients.forEach(function(ingredients, index) { %>
-                                <li class="list-group-item"><%= ingredients%></li>
+                            <% recipe.ingredients.forEach(function(ingredient, index) { %>
+                                <li class="list-group-item">
+                                    <a href="https://www.google.com/search?tbm=shop&q=<%= encodeURIComponent(ingredient) %>" target="_blank">
+                                        <%= ingredient %>
+                                    </a>
+                                </li>
                             <% }) %>
                         </ul>
                     </div>
-                </div>
+                </div>                
 
                 <div class="col-12" style="white-space: pre-line;">
                     <h4>Cooking Instructions</h4>

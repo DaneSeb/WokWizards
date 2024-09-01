@@ -190,6 +190,20 @@ exports.submitRecipeOnPost = async(req,res) => {
     }
 
 }
+/**
+ * GET /author-recipes
+ * Author's recipes
+ */
+exports.getAuthorRecipes = async (req, res) => {
+    try {
+        const authorEmail = req.params.email;
+        const recipes = await Recipe.find({ email: authorEmail }).sort({_id: -1});
+        res.render('author-recipes', { title: 'Author Recipes', recipes, user: req.user });
+    } catch (error) {
+        res.status(500).send({ message: error.message || 'Error occurred' });
+    }
+};
+
 //Delete recipe
 async function deleteRecipe() {
 

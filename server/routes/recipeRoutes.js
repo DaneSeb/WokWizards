@@ -12,6 +12,7 @@ router.get('/categories/:id',recipeController.exploreCategoriesById);
 router.post('/search',recipeController.searchRecipe);
 router.get('/explore-latest',recipeController.exploreLatest);
 router.get('/explore-random',recipeController.exploreRandom);
+router.get('/author/:email', recipeController.getAuthorRecipes);
 
 // Middleware to protect submit-recioe routes
 router.get('/submit-recipe', isLoggedIn, recipeController.submitRecipe);

@@ -15,15 +15,24 @@
     <div class="container-xxl px-md-5 bg-white shadow-lg">
 
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-            <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+            <div class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
                 <% if(user != undefined) {%>
-                    <img src= "<%= user.picture %>" width="69" height="69" alt="<%= user.displayName %>">
+                    <a a href="/author/<%= user.email %>">
+                        <img src= "<%= user.picture %>" width="69" height="69" alt="/img/user-alt-pic.png" style="border-radius: 50%">
+                    </a>
                 <% } else { %>
-                    <img src="/img/logo.png" width="69" height="69" alt="Home">
+                    <a href="/auth/google">
+                        <img src="/img/user-alt-pic.png" width="69" height="69" alt="user login">
+                    </a>
                 <% } %>
-            </a>            
+            </div>            
 
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb md-0">
+                <li>  
+                    <% if(user != undefined) { %>
+                        <a href="/author/<%= user.email %>" class="nav-link px-2 link-secondary">My Recipes</a>
+                    <% } %> 
+                </li>
                 <li> <a href="/" class="nav-link px-2 link-secondary">Home</a></li>
                 <li> <a href="/about" class="nav-link px-2 link-secondary">About</a></li>
                 <li> <a href="/submit-recipe" class="nav-link px-2 link-secondary">Submit</a></li>
