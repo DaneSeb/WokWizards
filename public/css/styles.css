@@ -50,3 +50,18 @@ a {
 .card-text {
     opacity: 1;
 }
+
+    
+@media (min-width: 975px) and (max-width: 1080px) {
+    .recipe__img {
+        padding-top: 200%; /* Increase the space on medium screens */
+    }
+}
+
+@media (min-width: 768px) and (max-width: 974px) {
+    .recipe__img {
+        padding-top: 250%; /* Increase the space on medium screens */
+    }
+}
+    
+    

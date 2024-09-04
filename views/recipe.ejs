@@ -14,7 +14,7 @@
                 <img class="card-img" src="/uploads/<%- recipe.image %>" alt="<%- recipe.name %>" loading="lazy">
               
                 <!-- Nutritional Information Box -->
-                <div class="card-img-overlay d-flex align-items-center justify-content-center">
+                <div class="recipe__img card-img-overlay d-flex align-items-center justify-content-center">
                   <div class="bg-dark text-light p-3 border rounded shadow-sm" style="max-width: 300px; text-align: center; opacity: 0.6;">
                     <h5 class="card-title mb-3">Nutritional Information</h5>
                     <p class="card-text"><strong>Calories:</strong> <%= recipe.calories %> kcal</p>
@@ -27,13 +27,13 @@
                     <p class="card-text"><strong>Fibre:</strong> <%= recipe.fibre %> g</p>
                   </div>
                 </div>
-              </div>
-        
+            </div>
         </div>
 
         <div class="col-12 col-md-8">
 
             <div class="row">
+                <a href="#" class="col-12 mb-4 px-2 btn btn-outline-primary">Edit Recipe</a>
                 <div class="col-12"><h1><%- recipe.name %></h1></div>
                 <div class="col-12 mb-4"><p>Author: <%- recipe.author %></p></div>
                 
