@@ -185,8 +185,6 @@ exports.submitRecipeOnPost = async(req,res) => {
     } catch(error) {
         req.flash('infoErrors', error );
         res.redirect('/submit-recipe');
-
-
     }
 
 }
@@ -201,6 +199,76 @@ exports.getAuthorRecipes = async (req, res) => {
         res.render('author-recipes', { title: 'Author Recipes', recipes, user: req.user });
     } catch (error) {
         res.status(500).send({ message: error.message || 'Error occurred' });
+    }
+};
+
+/**
+ * GET /recipe/:_id/edit
+ * Edit Recipes
+ */
+exports.editRecipe = async (req, res) => {
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoSubmitObj = req.flash('infoSubmit');
+
+    try {
+        const recipeId = req.params.id.trim();        
+        const recipe = await Recipe.findById(recipeId);
+
+        // Check if the recipe exists and the user is the owner
+        if (!recipe || recipe.email !== req.user.email) {
+            return res.status(403).send('You do not have permission to edit this recipe.');
+        }
+
+        res.render('edit-recipe', { title: 'Edit Recipe', infoErrorsObj,infoSubmitObj, recipe, user: req.user });
+    } catch (error) {
+        res.status(500).send({ message: error.message || 'Error Occurred' });
+    }
+};
+
+/**
+ * PUT /recipe/:_id/edit
+ * Update Recipes
+ */
+exports.updateRecipe = async (req, res) => {
+    try {
+        const recipeId = req.params.id;
+        let recipe = await Recipe.findById(recipeId);
+
+        // Check if the recipe exists and the user is the owner
+        if (!recipe || recipe.email !== req.user.email) {
+            return res.status(403).send('You do not have permission to edit this recipe.');
+        }
+
+        // Update recipe fields
+        recipe.author = req.body.author;
+        recipe.email = req.body.email;
+        recipe.name = req.body.name;
+        recipe.description = req.body.description;
+        recipe.ingredients = req.body.ingredients;
+        recipe.category = req.body.category;
+        recipe.diets = req.body.diets;
+        recipe.duration = req.body.duration;
+        recipe.persons = req.body.persons;
+        recipe.calories = req.body.calories;
+        recipe.fats = req.body.fats;
+        recipe.carbohydrates = req.body.carbohydrates;
+        recipe.protein = req.body.protein;
+        recipe.sugar = req.body.sugar;
+        recipe.salt = req.body.salt;
+        recipe.saturates = req.body.saturates;
+        recipe.fibre = req.body.fibre;
+
+        if (req.file) {
+            recipe.image = req.file.filename;
+        }
+
+        await recipe.save();
+
+        res.redirect(`/recipe/${recipe._id}`);
+        req.flash('infoSubmit', 'Recipe has been updated!');
+    } catch (error) {
+        req.flash('infoErrors', error );
+        res.status(500).send({ message: error.message || 'Error Occurred' });
     }
 };
 
@@ -228,6 +296,7 @@ async function updateRecipe() {
         console.log(error);
     }
 }
+
 
 // updateRecipe();
 

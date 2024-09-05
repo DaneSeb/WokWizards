@@ -33,7 +33,9 @@
         <div class="col-12 col-md-8">
 
             <div class="row">
-                <a href="#" class="col-12 mb-4 px-2 btn btn-outline-primary">Edit Recipe</a>
+                <% if (user && user.email === recipe.email) { %>
+                    <a href="/recipe/ <%= recipe.id %>/edit" class="col-12 mb-4 px-2 btn btn-outline-primary">Edit Recipe</a>
+                <% } %>
                 <div class="col-12"><h1><%- recipe.name %></h1></div>
                 <div class="col-12 mb-4"><p>Author: <%- recipe.author %></p></div>
                 

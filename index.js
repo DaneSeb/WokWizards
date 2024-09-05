@@ -7,6 +7,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const passport = require('passport');
+const methodOverride = require('method-override');
 require('./auth');
 
 function isLoggedIn(req,res,next) {
@@ -21,6 +22,9 @@ module.exports = { isLoggedIn };
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+//Initialises method-override
+app.use(methodOverride('_method'));
 
 //Allows us not to use full path files like images
 app.use(express.urlencoded({ extended: true }));
@@ -42,6 +46,7 @@ app.use(fileUpload());
 //Initialise Passport.js
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 //Stores layout in layouts/main.ejs
 app.set('layout', './layouts/main');

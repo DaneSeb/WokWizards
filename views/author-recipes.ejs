@@ -1,4 +1,6 @@
-<h1 class="pb-4"><%= user.displayName %>'s Recipes</h1>
+<% if (user) { %>
+    <h1 class="pb-4"><%= user.displayName %>'s Recipes</h1>
+<% } %>
 
 <div class="row row-cols-2 row-cols-lg-4 g-2 g-lg-3">
     <% if(recipes.length > 0) { %>
