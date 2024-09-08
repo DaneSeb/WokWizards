@@ -1,0 +1,93 @@
+<row>
+    <h1 class="pb-4">Advanced Recipe Search</h1>
+    <div class="col-12 md-4">
+        <form action="/adv-search" method="POST">
+            <div class="form-group">
+                <label for="searchTerm">Search Term:</label>
+                <input type="text" id="searchTerm" name="searchTerm" class="form-control">
+            </div>
+        <h4> Basic Requirements: </h4>
+            <div class="form-group">
+                <label for="ingredientTags">Ingredient Tags:</label>
+                <input type="text" id="ingredientTags" name="ingredientTags" class="form-control" placeholder="e.g., garlic, ginger">
+            </div>
+
+            <div class="form-group">
+                <label for="minRating">Minimum Rating:</label>
+                <select id="minRating" name="minRating" class="form-control">
+                    <option value="">Any</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label for="diets">Special Diets: </label><br>
+                <div id="diets" class="btn-group" role="group" aria-label="Diets">
+                    <input type="checkbox" class="btn-check" id="Vegetarian" name="diets" value="Vegetarian" autocomplete="off">
+                    <label class="btn btn-outline-success" for="Vegetarian">Vegetarian</label>
+            
+                    <input type="checkbox" class="btn-check" id="Vegan" name="diets" value="Vegan" autocomplete="off">
+                    <label class="btn btn-outline-success" for="Vegan">Vegan</label>
+            
+                    <input type="checkbox" class="btn-check" id="GlutenFree" name="diets" value="Gluten-Free" autocomplete="off">
+                    <label class="btn btn-outline-success" for="GlutenFree">Gluten-Free</label>
+            
+                    <input type="checkbox" class="btn-check" id="DairyFree" name="diets" value="Dairy-Free" autocomplete="off">
+                    <label class="btn btn-outline-success" for="DairyFree">Dairy-Free</label>
+                </div>
+            </div>
+        
+            <h4> Portion and Time: </h4>
+
+            <div class="form-group">
+                <label for="minDuration">Minimum Duration (minutes):</label>
+                <input type="number" id="minDuration" name="minDuration" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="maxDuration">Maximum Duration (minutes):</label>
+                <input type="number" id="maxDuration" name="maxDuration" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="minPersons">Minimum Serves:</label>
+                <input type="number" id="minPersons" name="minPersons" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="maxPersons">Maximum Serves:</label>
+                <input type="number" id="maxPersons" name="maxPersons" class="form-control">
+            </div>
+            <h4> Nutritional Priority: </h4>
+            <div class="form-group">
+                <label for="sortBy">Sort By:</label>
+                <select id="sortBy" name="orderBy" class="form-control">
+                    <option value="name">Name</option>
+                    <option value="duration">Duration</option>
+                    <option value="calories">Calories</option>
+                    <option value="carbohydrates">Carbohydrates</option>
+                    <option value="fats">Fats</option>
+                    <option value="sugar">Sugar</option>
+                    <option value="salt">Salt</option>
+                    <option value="saturates">Saturates</option>
+                    <option value="fibre">Fibre</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="sortOrder">Sort Order:</label>
+                <select id="sortOrder" name="order" class="form-control">
+                    <option value="asc">Ascending</option>
+                    <option value="desc">Descending</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+</row>

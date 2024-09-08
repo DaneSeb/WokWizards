@@ -13,6 +13,9 @@ router.post('/search',recipeController.searchRecipe);
 router.get('/explore-latest',recipeController.exploreLatest);
 router.get('/explore-random',recipeController.exploreRandom);
 router.get('/author/:email', recipeController.getAuthorRecipes);
+router.get('/adv-search',recipeController.advancedSearch);
+router.post('/adv-search', recipeController.advancedSearchOnPost);
+
 
 // Middleware to protect submit-recipe routes & edit-recipe routes
 // Route to submit recipes

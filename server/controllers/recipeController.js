@@ -24,7 +24,7 @@ exports.homepage = async(req,res) => {
         res.status(500).send({message: error.message || "Error Occured"});
     }
 
-}
+};
 
 /**
  * Get /categories
@@ -40,7 +40,7 @@ exports.exploreCategories= async(req,res) => {
     } catch(error) {
         res.status(500).send({message: error.message || "Error Occured"});
     }
-}
+};
 
 /**
  * Get /categories/:id
@@ -58,7 +58,7 @@ exports.exploreCategoriesById = async(req,res) => {
     } catch(error) {
         res.status(500).send({message: error.message || "Error Occured"});
     }
-}
+};
 
 /**
  * Get /recipe/:id
@@ -79,7 +79,7 @@ exports.exploreRecipe= async(req,res) => {
     } catch(error) {
         res.status(500).send({message: error.message || "Error Occured"});
     }
-}
+};
 
 /**
  * POST /search
@@ -96,7 +96,7 @@ exports.searchRecipe= async(req,res) => {
 
     }    
 
-}
+};
 
 /**
  * Get /explore-latest
@@ -111,7 +111,7 @@ exports.exploreLatest= async(req,res) => {
     } catch(error) {
         res.status(500).send({message: error.message || "Error Occured"});
     }
-}
+};
 
 /**
  * Get /explore-random
@@ -128,7 +128,7 @@ exports.exploreRandom= async(req,res) => {
     } catch(error) {
         res.status(500).send({message: error.message || "Error Occured"});
     }
-}
+};
 
 /**
  * Get /submit-recipe
@@ -138,7 +138,7 @@ exports.submitRecipe= async(req,res) => {
     const infoErrorsObj = req.flash('infoErrors');
     const infoSubmitObj = req.flash('infoSubmit');
     res.render('submit-recipe', { title: 'WokWizards - Submit Recipe', user: req.user, infoErrorsObj, infoSubmitObj  } );
-}
+};
 
 /**
  * POST /submit-recipe
@@ -193,7 +193,7 @@ exports.submitRecipeOnPost = async(req,res) => {
         res.redirect('/submit-recipe');
     }
 
-}
+};
 /**
  * GET /author-recipes
  * Author's recipes
@@ -387,7 +387,6 @@ exports.editComment = async(req, res) => {
  * Edit Comment
  */
 exports.editCommentOnPost = async(req, res) => {
-    console.log('Editing comment:', req.params.id);
     if (!req.user) {
         return res.redirect('/auth/google'); // Redirect to login if not authenticated
     }
@@ -402,3 +401,116 @@ exports.editCommentOnPost = async(req, res) => {
         res.status(500).send('Server Error');
     }
 };
+
+/**
+ * GET /adv-search
+ * Advanced Search
+ */
+exports.advancedSearch = async (req, res) => {
+    res.render('adv-search', { title: 'Advanced Recipe Search', user: req.user });
+}
+
+/**
+ * POST /adv-search
+ * Advanced Search 
+ */
+exports.advancedSearchOnPost = async (req, res) => {
+    try {
+        const { searchTerm, ingredientTags, minRating, orderBy, order } = req.body;
+        let query = {};
+
+        // Full-text search on recipe name and description
+        if (searchTerm) {
+            query.$text = { $search: searchTerm, $diacriticSensitive: true };
+        }
+
+        // Filter by ingredient tags (in the description field)
+        if (ingredientTags) {
+            const tagsArray = ingredientTags.split(',').map(tag => tag.trim());
+
+            // Use $and to match all keywords in the description field
+            query.$and = tagsArray.map(tag => ({
+                description: { 
+                    $regex: tag, 
+                    $options: 'i' // 'i' option for case-insensitive search
+                }
+            }));
+        }
+
+        // Filter by diet
+        if (req.body.diets) {
+            const dietsArray = Array.isArray(req.body.diets) ? req.body.diets : [req.body.diets];
+            
+            // Ensure that the query includes recipes that match any of the selected diets
+            query.diets = { $in: dietsArray };
+        }
+
+        // Filter by duration (min and max)
+        if (req.body.minDuration || req.body.maxDuration) {
+            query.duration = {};
+            if (req.body.minDuration) {
+                query.duration.$gte = parseInt(req.body.minDuration);
+            }
+            if (req.body.maxDuration) {
+                query.duration.$lte = parseInt(req.body.maxDuration);
+            }
+        }
+
+        // Filter by persons (min and max)
+        if (req.body.minPersons || req.body.maxPersons) {
+            query.persons = {};
+            if (req.body.minPersons) {
+                query.persons.$gte = parseInt(req.body.minPersons);
+            }
+            if (req.body.maxPersons) {
+                query.persons.$lte = parseInt(req.body.maxPersons);
+            }
+        }
+
+        // Sorting order
+        let sortOption = {};
+        if (orderBy) {
+            const orderField = orderBy; // For example: 'duration', 'persons'
+            const orderDirection = order === 'asc' ? 1 : -1;
+            sortOption[orderField] = orderDirection;
+        }
+
+        // Aggregating recipes with average rating from comments
+        const recipe = await Recipe.aggregate([
+            // Match recipes based on the query so far
+            { $match: query },
+            // Look up comments for each recipe
+            {
+                $lookup: {
+                    from: 'comments', // Collection to join (should be pluralized if auto-pluralized)
+                    localField: '_id',
+                    foreignField: 'recipeId',
+                    as: 'comments'
+                }
+            },
+            // Add a field for average rating if comments exist
+            {
+                $addFields: {
+                    avgRating: {
+                        $cond: {
+                            if: { $gt: [{ $size: '$comments' }, 0] },
+                            then: { $avg: '$comments.rating' },
+                            else: null
+                        }
+                    }
+                }
+            },
+            // Filter by minimum average rating if specified
+            ...(minRating
+                ? [{ $match: { avgRating: { $gte: parseFloat(minRating) } } }]
+                : []),
+            // Sort results
+            { $sort:sortOption }
+        ]);
+        
+        res.render('search', { title: 'Advanced Search Results', recipe, user: req.user });
+    } catch (error) {
+        res.status(500).send({ message: error.message || "Error Occurred" });
+    }
+};
+

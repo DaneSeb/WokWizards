@@ -69,5 +69,21 @@ a {
     font-size: 1.2em; /* Adjust size as needed */
     margin-right: 2px;
 }
-    
+
+/* Custom button styling */
+.custom-btn {
+    background-color: black; /* Gold background color */
+    color: gold; /* Text color */
+    border: 2px solid gold; /* Border color */
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Button hover effect */
+.custom-btn:hover {
+    background-color: #ffd700; /* Slightly different gold color on hover */
+    color: black; /* Text color remains the same */
+    border: 2px solid #ffd700; /* Border color on hover */
+    text-decoration: none; /* Remove underline on hover */
+}
+
     
