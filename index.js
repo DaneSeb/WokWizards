@@ -11,7 +11,6 @@ const methodOverride = require('method-override');
 require('./auth');
 
 function isLoggedIn(req,res,next) {
-    console.log('User:', req.user);
     if(req.user) {
         return next();
     } else {

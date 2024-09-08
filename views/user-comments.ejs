@@ -1,0 +1,26 @@
+<div class="container">
+    <h1>My Comments</h1>
+
+    <% if (comments.length > 0) { %>
+        <ul class="list-group">
+            <% comments.forEach(function(comment) { %>
+                <li class="list-group-item">
+                    <h5><%= comment.recipeId.name %></h5>
+                    <p><strong>Rating:</strong> <%= comment.rating %> / 5</p>
+                    <p><strong>Comment:</strong> <%= comment.comment %></p>
+                    <p><small><strong>Date:</strong> <%= comment.date.toDateString() %></small></p>
+                    
+                    <!-- Edit Comment Button -->
+                    <a href="/user/comments/<%= comment._id %>/edit" class="btn btn-warning btn-sm">Edit</a>
+
+                    <!-- Delete Comment Form -->
+                    <form action="/user/comments/<%= comment._id %>/delete" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>You have not made any comments yet.</p>
+    <% } %>
+</div>

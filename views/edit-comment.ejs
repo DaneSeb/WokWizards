@@ -1,0 +1,19 @@
+<div class="container">
+    <h1>Edit Comment</h1>
+
+    <form action="/user/comments/<%= comment._id %>/edit" method="POST">
+        <div class="form-group">
+            <label for="rating">Rating:</label>
+            <select id="rating" name="rating" class="form-control">
+                <% for (let i = 1; i <= 5; i++) { %>
+                    <option value="<%= i %>" <%= i === comment.rating ? 'selected' : '' %>><%= i %></option>
+                <% } %>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="comment">Comment:</label>
+            <textarea id="comment" name="comment" class="form-control" required><%= comment.comment %></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Comment</button>
+    </form>
+</div>

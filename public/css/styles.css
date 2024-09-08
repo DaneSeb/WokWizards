@@ -63,5 +63,11 @@ a {
         padding-top: 250%; /* Increase the space on medium screens */
     }
 }
+
+.fas.fa-star, .far.fa-star {
+    color: #FFD700; /* Gold color for stars */
+    font-size: 1.2em; /* Adjust size as needed */
+    margin-right: 2px;
+}
     
     

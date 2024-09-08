@@ -129,7 +129,7 @@
                 
                 <div class="col-12">
                     <label for="image">Dish Image</label>
-                    <input type="file" class="form-control" name="image" accept="image/*">
+                    <input type="hidden" class="form-control" name="image" accept="image/*">
                     <small>Current Image: <%= recipe.image %></small>
                     <!-- Recipe Image -->
                     <img class="card-img" src="/uploads/<%- recipe.image %>" alt="<%- recipe.name %>" loading="lazy">

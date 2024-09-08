@@ -34,9 +34,28 @@
 
             <div class="row">
                 <% if (user && user.email === recipe.email) { %>
-                    <a href="/recipe/ <%= recipe.id %>/edit" class="col-12 mb-4 px-2 btn btn-outline-primary">Edit Recipe</a>
+                    <div class="row-6">
+                        <a href="/recipe/ <%= recipe.id %>/edit" class="col-6 mb-4 px-2 btn btn-outline-primary">Edit Recipe</a>
+                    </div>
+                    <div class="row-6">
+                        <form action="/recipe/<%= recipe._id %>?_method=DELETE" method="POST">
+                            <button type="submit" class="col-6 mb-4 px-2 btn btn-outline-danger">Delete Recipe</button>
+                        </form>  
+                    </div>
                 <% } %>
                 <div class="col-12"><h1><%- recipe.name %></h1></div>
+
+                <!-- Display the average rating -->
+                <div class="col-12 mb-4">
+                    <h5>Average Rating:
+                        <% if (averageRating > 0) { %>
+                            <%= averageRating.toFixed(1) %> / 5.0
+                        <% } else { %>
+                            No ratings yet.
+                        <% } %>
+                    </h5>
+                </div>
+
                 <div class="col-12 mb-4"><p>Author: <%- recipe.author %></p></div>
                 
                 <div class="col-12 mb-4"><i class="bi bi-tags"></i> 
@@ -77,6 +96,65 @@
                         <p><strong><%= index + 1 %>. </strong><%= step %></p>
                     <% }) %>
                 </div>
+                
+                <!-- Display the comment form if the user is logged in -->
+                <% if (user) { %>
+                    <h4>Leave a Comment</h4>
+                    <form action="/recipe/<%= recipe._id %>/comment" method="POST">
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" id="name" name="name" class="form-control" value="<%= user.displayName %>" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" class="form-control" value="<%= user.email %>" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="rating">Rating:</label>
+                            <select id="rating" name="rating" class="form-control">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="comment">Comment:</label>
+                            <textarea id="comment" name="comment" class="form-control" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Comment</button>
+                    </form>
+                <% } else { %>
+                    <!-- Display a message to log in to leave a comment -->
+                    <p>You must <a href="/auth/google">log in</a> to leave a comment.</p>
+                <% } %> 
+
+                <h3>Comments</h3>
+                <% if (comments && comments.length > 0) { %>
+                    <ul>
+                        <% comments.forEach(function(comment) { %>
+                            <li>
+                                <strong><%= comment.name %></strong> 
+                                <h6><%= comment.email %></h6>
+                                <p>
+                                    <!-- Display the rating as stars -->
+                                    <% for (let i = 1; i <= 5; i++) { %>
+                                        <% if (i <= comment.rating) { %>
+                                            <i class="fas fa-star"></i> <!-- Filled star for the rating -->
+                                        <% } else { %>
+                                            <i class="far fa-star"></i> <!-- Empty star for remaining -->
+                                        <% } %>
+                                    <% } %>
+                                </p>
+                                <p><%= comment.comment %></p>
+                            </li>
+                        <% }) %>
+                    </ul>
+                <% } else { %>
+                    <p>No comments yet. Be the first to comment!</p>
+                <% } %>   
+                                                   
             </div>
         </div>
     </div>
