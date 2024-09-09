@@ -14,10 +14,13 @@ exports.homepage = async(req,res) => {
         const categories = await Category.find({}).limit(limitNumber);
         const latest = await Recipe.find({}).sort({_id: -1}).limit(limitNumber);
         const thai = await Recipe.find({'category': 'Thai'}).limit(limitNumber);
-        const mexican = await Recipe.find({'category': 'Mexican'}).limit(limitNumber);
+        const malaysian = await Recipe.find({'category': 'Malaysian'}).limit(limitNumber);
         const chinese = await Recipe.find({'category': 'Chinese'}).limit(limitNumber);
+        const indian = await Recipe.find({'category': 'Indian'}).limit(limitNumber);
+        const japanese = await Recipe.find({'category': 'Japanese'}).limit(limitNumber);
 
-        const food = { latest, thai, mexican, chinese };
+
+        const food = { latest, thai, malaysian, chinese, indian, japanese };
 
         res.render('index', { title: 'WokWizards - Home', categories, food, user: req.user });
     } catch(error) {
