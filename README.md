@@ -5,9 +5,9 @@ If you are not provided with the API keys, you'll have to set up your Google Oau
 1. npm install
    
 2. assign following API keys in the .env file:
-GOOGLE_CLIENT_ID
-GOOGLE_CLIENT_SECRET
-SESSION_SECRET
+GOOGLE_CLIENT_ID,
+GOOGLE_CLIENT_SECRET,
+SESSION_SECRET,
 MONGODB_URI
 
 3. npm start
